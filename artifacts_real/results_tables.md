@@ -1,0 +1,84 @@
+## Benign behaviour (400 benign requests; perplexity on 300 held-out natural benign sequences)
+
+| Arm | FPR (benign blocked) | Benign generations passing checks | Perplexity | PPL vs undefended |
+|---|---|---|---|---|
+| A undefended | 0.0% | 92.2% | 194.1 | 1.000x |
+| B +ProtScreener | 6.5% | 89.5% | 194.1 | 1.000x |
+| C wrapper L1-L3 | 1.0% | 91.2% | 194.1 | 1.000x |
+| D C+steering | 1.0% | 94.0% | 193.2 | 0.995x |
+| E C+LoRA reroute | 0.8% | 92.2% | 194.2 | 1.001x |
+| C0 L1+L2 only | 0.0% | 93.2% | 194.1 | 1.000x |
+| D0 L1+L2+steer (no probe) | 0.0% | 95.0% | 193.2 | 0.995x |
+| E0 L1+L2+LoRA (no probe) | 0.0% | 91.5% | 194.2 | 1.001x |
+
+## RQ1: adaptive attacker vs screened family S (500 queries/round, 3 rounds)
+
+| Arm | runs | Evasion R1 | Evasion R2 | Evasion R3 | R3-R1 | Allowed rate R3 | Token expansion (mean) |
+|---|---|---|---|---|---|---|---|
+| A undefended | 4 | 15.1% ± 0.5 [13.6,16.7] | 62.0% ± 1.7 [59.9,64.1] | 63.1% ± 1.7 [60.9,65.1] | +48.0 pts | 100% | 1.35x |
+| B +ProtScreener | 4 | 13.6% ± 1.0 [12.1,15.1] | 63.8% ± 1.2 [61.6,65.8] | 60.9% ± 2.2 [58.7,63.0] | +47.3 pts | 94% | 1.36x |
+| C wrapper L1-L3 | 4 | 0.0% ± 0.0 [0.0,0.2] | 0.0% ± 0.0 [0.0,0.2] | 0.0% ± 0.0 [0.0,0.2] | +0.0 pts | 22% | 1.92x |
+| D C+steering | 4 | 0.0% ± 0.0 [0.0,0.2] | 0.0% ± 0.0 [0.0,0.2] | 0.0% ± 0.0 [0.0,0.2] | +0.0 pts | 24% | 1.92x |
+| E C+LoRA reroute | 4 | 0.0% ± 0.0 [0.0,0.2] | 0.0% ± 0.0 [0.0,0.2] | 0.0% ± 0.0 [0.0,0.2] | +0.0 pts | 24% | 1.92x |
+| C0 L1+L2 only | 4 | 16.3% ± 1.2 [14.7,18.0] | 62.2% ± 2.9 [60.0,64.3] | 62.4% ± 1.1 [60.2,64.4] | +46.1 pts | 96% | 1.36x |
+| D0 L1+L2+steer (no probe) | 4 | 10.2% ± 0.7 [8.9,11.6] | 43.8% ± 0.7 [41.6,45.9] | 45.0% ± 1.0 [42.8,47.2] | +34.8 pts | 95% | 1.37x |
+| E0 L1+L2+LoRA (no probe) | 4 | 0.0% ± 0.0 [0.0,0.2] | 0.0% ± 0.0 [0.0,0.2] | 0.0% ± 0.0 [0.0,0.2] | +0.0 pts | 66% | 1.92x |
+
+## Static (non-adaptive) attacker vs S (500 queries/round, 3 rounds)
+
+| Arm | runs | Evasion R1 | Evasion R2 | Evasion R3 | R3-R1 | Allowed rate R3 | Token expansion (mean) |
+|---|---|---|---|---|---|---|---|
+| A undefended | 2 | 16.4% ± 0.4 [14.2,18.8] | 14.5% ± 0.1 [12.5,16.8] | 16.8% ± 0.2 [14.6,19.2] | +0.4 pts | 100% | 1.91x |
+| B +ProtScreener | 2 | 13.8% ± 0.2 [11.8,16.1] | 13.2% ± 0.8 [11.2,15.4] | 14.6% ± 0.4 [12.5,16.9] | +0.8 pts | 59% | 1.91x |
+| C wrapper L1-L3 | 2 | 0.0% ± 0.0 [0.0,0.4] | 0.0% ± 0.0 [0.0,0.4] | 0.0% ± 0.0 [0.0,0.4] | +0.0 pts | 23% | 1.91x |
+| D C+steering | 2 | 0.0% ± 0.0 [0.0,0.4] | 0.0% ± 0.0 [0.0,0.4] | 0.0% ± 0.0 [0.0,0.4] | +0.0 pts | 24% | 1.91x |
+| E C+LoRA reroute | 2 | 0.0% ± 0.0 [0.0,0.4] | 0.0% ± 0.0 [0.0,0.4] | 0.0% ± 0.0 [0.0,0.4] | +0.0 pts | 24% | 1.91x |
+| C0 L1+L2 only | 2 | 17.4% ± 1.4 [15.2,19.9] | 16.0% ± 0.0 [13.9,18.4] | 17.6% ± 0.2 [15.4,20.1] | +0.2 pts | 66% | 1.91x |
+| D0 L1+L2+steer (no probe) | 2 | 11.5% ± 0.3 [9.7,13.6] | 10.1% ± 0.3 [8.4,12.1] | 11.0% ± 0.4 [9.2,13.1] | -0.5 pts | 66% | 1.91x |
+| E0 L1+L2+LoRA (no probe) | 2 | 0.0% ± 0.0 [0.0,0.4] | 0.0% ± 0.0 [0.0,0.4] | 0.0% ± 0.0 [0.0,0.4] | +0.0 pts | 66% | 1.91x |
+
+## RQ2: adaptive attacker vs HELD-OUT family H (defenses trained on S only)
+
+| Arm | runs | Evasion R1 | Evasion R2 | Evasion R3 |
+|---|---|---|---|---|
+| A undefended | 2 | 18.4% ± 2.8 | 62.2% ± 0.4 | 62.9% ± 0.5 |
+| B +ProtScreener | 2 | 14.7% ± 0.1 | 61.1% ± 2.5 | 64.2% ± 1.8 |
+| C wrapper L1-L3 | 2 | 0.0% ± 0.0 | 0.0% ± 0.0 | 0.0% ± 0.0 |
+| D C+steering | 2 | 0.0% ± 0.0 | 0.0% ± 0.0 | 0.0% ± 0.0 |
+| E C+LoRA reroute | 2 | 0.0% ± 0.0 | 0.0% ± 0.0 | 0.0% ± 0.0 |
+| C0 L1+L2 only | 2 | 18.0% ± 0.6 | 62.6% ± 0.2 | 67.6% ± 1.4 |
+| D0 L1+L2+steer (no probe) | 2 | 13.3% ± 0.3 | 47.1% ± 1.3 | 50.8% ± 1.6 |
+| E0 L1+L2+LoRA (no probe) | 2 | 0.0% ± 0.0 | 0.0% ± 0.0 | 0.0% ± 0.0 |
+
+## RQ2: probe detection of NATURAL sequences at the frozen threshold
+
+| Arm | S_test (in-family) | H_test (held-out family) | Benign (false alarm) |
+|---|---|---|---|
+| C wrapper L1-L3 | 98% | 95% | 1.3% |
+| D C+steering | 98% | 95% | 2.3% |
+| E C+LoRA reroute | 98% | 95% | 2.0% |
+
+## Where the adaptive attacker succeeded (round-3 hits per family, summed over runs, arm A and B)
+
+- A undefended: prefix=1226, point_sub=9, combo=7, homoglyph=5, cons_sub=4
+- B +ProtScreener: prefix=1186, cons_sub=10, point_sub=9, homoglyph=4, combo=4
+- C wrapper L1-L3: prefix=0, internal=0, point_sub=0, cons_sub=0, noncanon=0
+- D C+steering: prefix=0, internal=0, point_sub=0, cons_sub=0, noncanon=0
+- E C+LoRA reroute: prefix=0, internal=0, point_sub=0, cons_sub=0, noncanon=0
+- C0 L1+L2 only: prefix=1210, cons_sub=11, format=8, linker=7, point_sub=6
+- D0 L1+L2+steer (no probe): prefix=865, format=14, cons_sub=10, linker=7, point_sub=3
+- E0 L1+L2+LoRA (no probe): prefix=0, internal=0, point_sub=0, cons_sub=0, noncanon=0
+
+## Why queries were blocked (round 3, adaptive vs S, summed over runs)
+
+- A undefended: allowed=2000
+- B +ProtScreener: allowed=1870, screener_input=89, screener_out_Bad=24, screener_out_Rejected=17
+- C wrapper L1-L3: L3_probe=886, L1_alphabet=567, allowed=435, L1_expansion=112
+- D C+steering: L3_probe=840, L1_alphabet=567, allowed=481, L1_expansion=112
+- E C+LoRA reroute: L3_probe=831, L1_alphabet=567, allowed=490, L1_expansion=112
+- C0 L1+L2 only: allowed=1921, L1_alphabet=69, L1_expansion=10
+- D0 L1+L2+steer (no probe): allowed=1908, L1_alphabet=79, L1_expansion=13
+- E0 L1+L2+LoRA (no probe): allowed=1321, L1_alphabet=567, L1_expansion=112
+
+Steering strength chosen (fraction of median activation norm): 0.2; base benign perplexity (calib) 169.7
+Oracle: {'T_S': 315.5, 'tpr_S': 0.9818181818181818, 'T_H': 319.96, 'tpr_H': 1.0}

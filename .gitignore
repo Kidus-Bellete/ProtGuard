@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+sprot.pkl
+sprot.fasta
+*.fasta.gz

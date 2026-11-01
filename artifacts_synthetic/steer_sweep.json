@@ -1,0 +1,32 @@
+{
+ "0.0": {
+  "S_hit": 0.455,
+  "benign_fidelity": 0.15,
+  "benign_ppl": 47.34556951419799
+ },
+ "0.05": {
+  "S_hit": 0.32,
+  "benign_fidelity": 0.09,
+  "benign_ppl": 45.18981270609056
+ },
+ "0.1": {
+  "S_hit": 0.205,
+  "benign_fidelity": 0.08,
+  "benign_ppl": 43.751811177627104
+ },
+ "0.2": {
+  "S_hit": 0.03,
+  "benign_fidelity": 0.0,
+  "benign_ppl": 42.723065383381375
+ },
+ "0.3": {
+  "S_hit": 0.0,
+  "benign_fidelity": 0.0,
+  "benign_ppl": 43.76908671742438
+ },
+ "0.4": {
+  "S_hit": 0.0,
+  "benign_fidelity": 0.0,
+  "benign_ppl": 46.52559877111759
+ }
+}

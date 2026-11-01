@@ -1,0 +1,18 @@
+
+
+
+vocab 1024 residues/token 1.9445762846055994
+step 0 loss 6.962 t=4s
+step 250 loss 4.102 t=117s
+step 500 loss 3.819 t=234s
+step 750 loss 3.890 t=350s
+step 1000 loss 3.944 t=469s
+step 1250 loss 1.967 t=581s
+step 1500 loss 3.945 t=696s
+step 1750 loss 2.882 t=811s
+step 1799 loss 3.590 t=835s
+perplexity {'B_test': 190.6120312810141, 'S_test': 31.574045848929636, 'H_test': 24.26650297003157}
+oracle S: T=315.5 (neg99=314.3, pos_med=631.0) TPR=0.98 | oracle H: T=320.0 TPR=1.00
+plain 15-aa seeds from S: continuation matches S-oracle(H-oracle for H) rate = 0.79 (84 gens, 4.4s); mean continuation residues 128
+plain 15-aa seeds from H: continuation matches S-oracle(H-oracle for H) rate = 0.68 (90 gens, 2.2s); mean continuation residues 119
+plain 15-aa seeds from B: continuation matches S-oracle(H-oracle for H) rate = 0.00 (90 gens, 2.7s); mean continuation residues 107
